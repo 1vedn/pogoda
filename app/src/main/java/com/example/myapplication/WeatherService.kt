@@ -1,7 +1,5 @@
 package com.example.myapplication
-import kotlinx.serialization.decodeFromString
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.client.plugins.contentnegotiation.*
@@ -67,12 +65,11 @@ data class Sys(
 object WeatherService {
     private val client = HttpClient {
         install(ContentNegotiation) {
-            json(Json { ignoreUnknownKeys = true }) // Игнорируем неизвестные ключи
+            json(Json { ignoreUnknownKeys = true })
         }
     }
 
     suspend fun getWeather(city: String): WeatherResponse? {
-        // URL encode the city name to handle spaces and special characters
         val encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8.toString())
         val url = "$BASE_URL/weather?q=$encodedCity&appid=$API_KEY&units=metric"
         println("Request URL: $url") // Логируем URL запроса
@@ -80,22 +77,19 @@ object WeatherService {
         return try {
             val response: HttpResponse = client.get(url)
             val status = response.status
-            val body = response.bodyAsText() // Получаем ответ как строку
+            val body = response.bodyAsText()
 
-            // Логируем статус и тело ответа
             println("Response Status: $status")
             println("Response Body: $body")
 
             if (status.value == 200) {
-                // Прямо используем уже настроенный Json для десериализации
-                Json { ignoreUnknownKeys = true }.decodeFromString<WeatherResponse>(body)
+               Json { ignoreUnknownKeys = true }.decodeFromString<WeatherResponse>(body)
             } else {
                 println("Error: ${status.value}, Message: ${response.status.description}")
                 null
             }
         } catch (e: Exception) {
-            // Логируем исключение для отладки
-            println("Error fetching weather: ${e.message}")
+           println("Error fetching weather: ${e.message}")
             null
         }
     }

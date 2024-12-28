@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0" // Используем актуальную версию
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.0"
 }
 
 android {
@@ -56,25 +56,19 @@ android {
 }
 
 dependencies {
-    // Основные зависимости Compose и AndroidX
-    implementation(libs.ui) // Совместим с Compose
+
+    implementation(libs.ui)
     implementation(libs.androidx.material)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-
-    // Зависимости Ktor
-
-        // Основные компоненты Ktor
-    implementation("io.ktor:ktor-client-core:2.3.0")
-    implementation("io.ktor:ktor-client-cio:2.3.2")
-    implementation("io.ktor:ktor-client-content-negotiation:2.3.2")
+    implementation(libs.ktor.client.core.v232)
+    implementation(libs.ktor.client.cio.v232)
+    implementation(libs.ktor.client.content.negotiation)
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-
-    // Зависимости для тестирования
+    implementation(libs.kotlinx.serialization.json.v151)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
